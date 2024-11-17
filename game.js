@@ -2,38 +2,31 @@ function setup() {
   createCanvas(800, 600);
 }
 
-let x = 100;
+// position variables
+let x = 340;
 let y = 100;
+
+// game logic variables
+let veloX = 0.005;
+let veloY = 0.005;
+let acc = 0.005;
+
+// game state variables
 let state = "start";
 
-function stoptext() {
-  fill(0, 0, 0);
-  textSize(12);
-  text("press any key to stop!", 10, 20);
-}
-
+// function for steering
 function move() {
   switch (key) {
-    case "d":
-      x += 1;
-      break;
-    case "a":
-      x += -1;
-
-      break;
 
     case "w":
       y += -1;
+      veloY = veloY - 0.0007;
 
-      break;
-    case "s":
-      y += 1;
-      break;
+        break;
   }
 }
 
-
-
+// function that draws the drone
 function drone(x, y) {
 
 
@@ -66,7 +59,7 @@ function drone(x, y) {
   rect(x + 70, y - 32, 5, 40, 1);
 }
 
-// background
+// function that draws the background
 
 function bg() {
 
@@ -79,51 +72,60 @@ pop();
 
 }
 
+// function for the play button
+
 function mouseClicked(){
 
-  if(mouseX >= 325  && mouseX <=375 && mouseY >= 325 && mouseY <=375){
+  if(mouseX >= 325  && mouseX <=475 && mouseY >= 325 && mouseY <=375){
 
     state = "game";
   }
   
 }
 
-// Start button
+// function that draws the start button
 
 function startButton(){
 
-  rect(x+225,y+225,150,50, 5);
+  rect(325,325,150,50, 5);
   textSize(32);
-  text('PLAY ▶', x+240, y+260);
+  text('PLAY ▶', 340, 360);
 
 }
+
+// function that draws the home screen
 
 function homeScreen(){
 
   bg();
   textSize(75);
-  text('DRONE LANDER', x+20, y+110);
+  text('DRONE LANDER', 120, 210);
   startButton();
 
 
 }
 
+// function that draws the game screen
+
 function gameScreen(){
   
+  move();
   bg();
   drone(x, y);
-  move();
-  stoptext();
 
 }
+
+// function that draws the game screen
 
 function resultScreen(){
 
 
 }
 
+// gravity logic
+ 
 function draw() {
-  //gameScreen();
+
   if(state === "start"){
 
     homeScreen();
@@ -139,6 +141,10 @@ function draw() {
   }
   
 
+  y = y + veloY;
+  veloY = veloY + acc;
+
   frameRate(60);
+
 }
 
