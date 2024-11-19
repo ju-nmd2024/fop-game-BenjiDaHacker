@@ -7,7 +7,6 @@ let x = 340;
 let y = 100;
 
 // game logic variables
-let veloX = 0.005;
 let veloY = 0.005;
 let acc = 0.005;
 
@@ -15,15 +14,11 @@ let acc = 0.005;
 let state = "start";
 
 // function for steering
-function move() {
-  switch (key) {
-
-    case "w":
+function keyPressed() {
+  if(key === 'w') {
+      veloY = veloY - 0.0100;
       y += -1;
-      veloY = veloY - 0.0007;
-
-        break;
-  }
+    }
 }
 
 // function that draws the drone
@@ -109,20 +104,39 @@ function homeScreen(){
 
 function gameScreen(){
   
-  move();
   bg();
   drone(x, y);
+  collison();
+  result();
+  text(`Meters per second: ${veloY.toFixed(1)}`, 50, 50); // ChatGPT
 
 }
 
-// function that draws the game screen
+function collison(){
 
-function resultScreen(){
+  if (y >= 500){
 
+    veloY = 0;
+    
+      } 
 
 }
 
-// gravity logic
+function result(){
+
+  if (y >= 500 && veloY >= 1 ){
+
+    text("Fail", 400, 200);
+    
+      } else if (y >= 500 && veloY >= 1) {
+
+        text("Success!", 400, 200);
+
+      }
+
+}
+
+// function draw
  
 function draw() {
 
@@ -134,17 +148,15 @@ function draw() {
 
     gameScreen();
 
-  } else if(state === "result") {
-
-    resultScreen();
-
   }
   
+  // gravity logic
 
   y = y + veloY;
   veloY = veloY + acc;
 
   frameRate(60);
+  keyPressed();
 
 }
 
