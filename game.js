@@ -15,16 +15,14 @@ let state = "start";
 
 // function for steering
 function keyPressed() {
-  if(key === 'w') {
-      veloY = veloY - 0.0100;
-      y += -1;
-    }
+  if (key === "w") {
+    veloY = veloY - 0.01;
+    y += -1;
+  }
 }
 
 // function that draws the drone
 function drone(x, y) {
-
-
   // amazon box
 
   scale(1);
@@ -57,99 +55,72 @@ function drone(x, y) {
 // function that draws the background
 
 function bg() {
-
-background(200, 230, 255);
-push();
-fill(0, 100, 10);
-noStroke();
-rect(0, 450, 800, 250);
-pop();
-
+  background(200, 230, 255);
+  push();
+  fill(0, 100, 10);
+  noStroke();
+  rect(0, 450, 800, 250);
+  pop();
 }
 
 // function for the play button
 
-function mouseClicked(){
-
-  if(mouseX >= 325  && mouseX <=475 && mouseY >= 325 && mouseY <=375){
-
+function mouseClicked() {
+  if (mouseX >= 325 && mouseX <= 475 && mouseY >= 325 && mouseY <= 375) {
     state = "game";
   }
-  
 }
 
 // function that draws the start button
 
-function startButton(){
-
-  rect(325,325,150,50, 5);
+function startButton() {
+  rect(325, 325, 150, 50, 5);
   textSize(32);
-  text('PLAY ▶', 340, 360);
-
+  text("PLAY ▶", 340, 360);
 }
 
 // function that draws the home screen
 
-function homeScreen(){
-
+function homeScreen() {
   bg();
   textSize(75);
-  text('DRONE LANDER', 120, 210);
+  text("DRONE LANDER", 120, 210);
   startButton();
-
-
 }
 
 // function that draws the game screen
 
-function gameScreen(){
-  
+function gameScreen() {
   bg();
   drone(x, y);
   collison();
   result();
   text(`Meters per second: ${veloY.toFixed(1)}`, 50, 50); // ChatGPT
-
 }
 
-function collison(){
-
-  if (y >= 500){
-
+function collison() {
+  if (y >= 500) {
     veloY = 0;
-    
-      } 
-
+  }
 }
 
-function result(){
-
-  if (y >= 500 && veloY >= 1 ){
-
+function result() {
+  if (y >= 450 && y <= 495 && veloY >= 2) {
     text("Fail", 400, 200);
-    
-      } else if (y >= 500 && veloY >= 1) {
-
-        text("Success!", 400, 200);
-
-      }
-
+  } else if (y >= 450 && y <= 495 && veloY <= 1) {
+    text("Success!", 400, 200);
+  }
 }
 
 // function draw
- 
+
 function draw() {
-
-  if(state === "start"){
-
+  if (state === "start") {
     homeScreen();
-
-  } else if (state === "game"){
-
+  } else if (state === "game") {
     gameScreen();
-
   }
-  
+
   // gravity logic
 
   y = y + veloY;
@@ -157,6 +128,4 @@ function draw() {
 
   frameRate(60);
   keyPressed();
-
 }
-
