@@ -7,17 +7,17 @@ let x = 340;
 let y = 100;
 
 // game logic variables
-let veloY = 0.005;
-let acc = 0.005;
+let veloY = 0.2;
+let acc = 0.2;
 
 // game state variables
 let state = "start";
 
 // function for steering
 function keyPressed() {
-  if (key === "w") {
-    veloY = veloY - 0.01;
-    y += -1;
+  if (key === "w" && y >= 0) {
+    veloY = veloY - 0.7;
+    key = null;
   }
 }
 
@@ -68,20 +68,41 @@ function bg() {
 function mouseClicked() {
   if (mouseX >= 325 && mouseX <= 475 && mouseY >= 325 && mouseY <= 375) {
     state = "game";
+  } else if (mouseX >= 725 && mouseX <= 745 && mouseY >= 10 && mouseY <= 60){
+    state = "start";
   }
 }
 
 // function that draws the start button
 
 function startButton() {
+  push();
+  fill(255,255,255);
   rect(325, 325, 150, 50, 5);
   textSize(32);
+  fill(0,0,0);
   text("PLAY ▶", 340, 360);
+  pop();
 }
 
-// function that draws the home screen
+function restartButton() {
+  push();
+  fill(255,255,255);
+  rect(720, 10, 50, 50, 5);
+  textSize(48);
+  fill(0,0,0);
+  text("⭮", 724.5, 52.5);
+  pop();
+}
+
+
 
 function homeScreen() {
+  x = 340;
+  y = 100;
+  veloY = 0.002;
+  acc = 0.02;
+  
   bg();
   textSize(75);
   text("DRONE LANDER", 120, 210);
@@ -93,23 +114,37 @@ function homeScreen() {
 function gameScreen() {
   bg();
   drone(x, y);
-  collison();
   result();
-  text(`Meters per second: ${veloY.toFixed(1)}`, 50, 50); // ChatGPT
+  collison();
+  text(`Meters per second: ${veloY.toFixed(1)}`, 25, 25); // Speedometer ChatGPT
 }
 
 function collison() {
   if (y >= 500) {
     veloY = 0;
+
   }
 }
 
-function result() {
-  if (y >= 450 && y <= 495 && veloY >= 2) {
-    text("Fail", 400, 200);
-  } else if (y >= 450 && y <= 495 && veloY <= 1) {
-    text("Success!", 400, 200);
-  }
+function result(){
+
+  if (y >= 450 && y <= 499 && veloY <= 1) {
+    state = "success";
+  } else if (y >= 450 && y <= 499 && veloY >= 2) {
+    state = "fail";
+  } 
+
+}
+
+function resultScreenSuccess() {
+  bg();
+  restartButton();
+  text("Success, Jeff Bezos approves!", 400, 200);
+}
+function resultScreenFail() {
+bg();
+restartButton();
+text("Fail, You are not worthy.", 400, 200);
 }
 
 // function draw
@@ -119,6 +154,14 @@ function draw() {
     homeScreen();
   } else if (state === "game") {
     gameScreen();
+  } else if (state === "success"){
+
+resultScreenSuccess();
+
+  } else if (state ==="fail"){
+
+resultScreenFail();
+
   }
 
   // gravity logic
