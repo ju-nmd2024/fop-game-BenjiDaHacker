@@ -104,6 +104,11 @@ function homeScreen() {
   acc = 0.02;
   
   bg();
+  push();
+  textSize(32);
+  textFont('Lucida Handwriting');
+  text("Jeff Bezos's", 130, 130);
+  pop();
   textSize(75);
   text("DRONE LANDER", 120, 210);
   startButton();
