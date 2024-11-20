@@ -22,6 +22,7 @@ function keyPressed() {
 }
 
 // function that draws the drone
+
 function drone(x, y) {
   // amazon box
 
@@ -63,7 +64,7 @@ function bg() {
   pop();
 }
 
-// function for the play button
+// logic for buttons
 
 function mouseClicked() {
   if (mouseX >= 325 && mouseX <= 475 && mouseY >= 325 && mouseY <= 375) {
@@ -85,6 +86,8 @@ function startButton() {
   pop();
 }
 
+// function that draws the reset button
+
 function restartButton() {
   push();
   fill(255,255,255);
@@ -95,7 +98,7 @@ function restartButton() {
   pop();
 }
 
-
+// function that draws the home screen
 
 function homeScreen() {
   x = 340;
@@ -124,12 +127,16 @@ function gameScreen() {
   text(`Meters per second: ${veloY.toFixed(1)}`, 25, 25); // Speedometer ChatGPT
 }
 
+// collision logic
+
 function collison() {
   if (y >= 500) {
     veloY = 0;
 
   }
 }
+
+// result logic
 
 function result(){
 
@@ -141,6 +148,8 @@ function result(){
 
 }
 
+// functions that draws the different result-screen
+
 function resultScreenSuccess() {
   bg();
   restartButton();
@@ -151,8 +160,6 @@ bg();
 restartButton();
 text("Fail, You are not worthy.", 400, 200);
 }
-
-// function draw
 
 function draw() {
   if (state === "start") {
